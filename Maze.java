@@ -1,6 +1,33 @@
 /* This class should implement the DisplayableMaze interface */
-public class Maze{
+public class Maze implements DisplayableMaze{
+  private MazeContents[][] mazeGrid;
+  private int width;
+  private int height;
+  private MazeLocation start;
+  private MazeLocation finish;
+  
+  public int getHeight(){
+    return 0;
+  }
+  public int getWidth(){
+    return 5;
+  }
 
+  public MazeContents getContents(int i, int j){
+    return MazeContents;
+  }
+
+  public Boolean checkExplorable(int i, int j) {
+    return true;
+  }
+
+  public MazeLocation getStart(){
+    return MazeLocation;
+  }
+
+  public MazeLocation getFinish() {
+    return MazeLocation;
+  }
 
     /** This DemoMaze method will allow you to generate a simple maze
      * to test your code on as you develop it. Ultimately, you need
