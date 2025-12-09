@@ -7,26 +7,35 @@ public class Maze implements DisplayableMaze{
   private MazeLocation finish;
   
   public int getHeight(){
-    return 0;
+    return height;
   }
   public int getWidth(){
-    return 5;
+    return width;
   }
 
   public MazeContents getContents(int i, int j){
-    return MazeContents;
+    if (i >= 0 && i < height && j >= 0 && j < width) {
+      return mazeGrid[i][j];
+    } else {
+      return null;
+    }
   }
 
   public Boolean checkExplorable(int i, int j) {
-    return true;
+    if (i < 0 || i > height || j < 0 || j > width) { //check if location is within bounds
+      return false;
+    }
+
+    MazeContents contents = mazeGrid[i][j];
+    return contents.isExplorable; //check if already visited location or reached a wall (field is from MazeContents class)
   }
 
   public MazeLocation getStart(){
-    return MazeLocation;
+    return start;
   }
 
   public MazeLocation getFinish() {
-    return MazeLocation;
+    return finish;
   }
 
     /** This DemoMaze method will allow you to generate a simple maze
@@ -56,4 +65,13 @@ public class Maze implements DisplayableMaze{
         this.mazeGrid[9][0] = MazeContents.WALL; this.mazeGrid[9][1] = MazeContents.WALL; this.mazeGrid[9][2] = MazeContents.WALL; this.mazeGrid[9][3] = MazeContents.WALL; this.mazeGrid[9][4] = MazeContents.WALL; this.mazeGrid[9][5] = MazeContents.WALL; this.mazeGrid[9][6] = MazeContents.WALL; this.mazeGrid[9][7] = MazeContents.WALL;
   }
 
+  // public static void main(String[] args) {
+  //   Maze maze = new Maze();
+  //   maze.initDemoMaze();
+
+  //   System.out.println("------Maze Visualization------");
+  //   visualizeMaze(maze);
+
+
+  // }
 }
