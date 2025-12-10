@@ -6,6 +6,14 @@ public class Maze implements DisplayableMaze {
   private MazeLocation start;
   private MazeLocation finish;
   
+  public Maze(MazeContents[][] grid, MazeLocation start, MazeLocation finish) {
+    this.mazeGrid = grid;
+    this.height = grid.length;
+    this.width = grid[0].length; //set the width to be the length of the grid's first line
+    this.start = start;
+    this.finish = finish;
+  }
+
   public int getHeight() {
     return height;
   }
@@ -120,59 +128,59 @@ public class Maze implements DisplayableMaze {
     return reachedPath;
   }
 
-  public static void main(String[] args) {
-    Maze maze = new Maze();
-    maze.initDemoMaze();
+  // public static void main(String[] args) {
+  //   Maze maze = new Maze();
+  //   maze.initDemoMaze();
 
-    System.out.println("====Testing Maze Solver:====");
+  //   System.out.println("====Testing Maze Solver:====");
     
-    System.out.println("Initial Maze (S = Start, F = Finish):");
-    for (int i = 0; i < maze.getHeight(); i++) {
-      for (int j = 0; j < maze.getWidth(); j++) {
-        MazeLocation location = new MazeLocation(i,j);
-        if (location.equals(maze.getStart())) {
-          System.out.print("S ");
-        } else if (location.equals(maze.getFinish())) {
-          System.out.print("F ");
-        } else {
-          MazeContents content = maze.getContents(i, j);
-          if (content == MazeContents.WALL) {
-            System.out.print("# ");
-          } else {
-            System.out.print(". ");
-          }
-        }
-      }
-      System.out.println();
-    }
+  //   System.out.println("Initial Maze (S = Start, F = Finish):");
+  //   for (int i = 0; i < maze.getHeight(); i++) {
+  //     for (int j = 0; j < maze.getWidth(); j++) {
+  //       MazeLocation location = new MazeLocation(i,j);
+  //       if (location.equals(maze.getStart())) {
+  //         System.out.print("S ");
+  //       } else if (location.equals(maze.getFinish())) {
+  //         System.out.print("F ");
+  //       } else {
+  //         MazeContents content = maze.getContents(i, j);
+  //         if (content == MazeContents.WALL) {
+  //           System.out.print("# ");
+  //         } else {
+  //           System.out.print(". ");
+  //         }
+  //       }
+  //     }
+  //     System.out.println();
+  //   }
 
-    System.out.println("====Solving Maze:====");
-    boolean solved = maze.solve();
+  //   System.out.println("====Solving Maze:====");
+  //   boolean solved = maze.solve();
 
-    System.out.println("Final Maze:");
-    for (int i = 0; i < maze.getHeight(); i++) {
-      for (int j = 0; j < maze.getWidth(); j++) {
-        MazeContents content = maze.getContents(i, j);
-        if (content == MazeContents.WALL) {
-          System.out.print("# ");
-        } else if (content == MazeContents.PATH) {
-          System.out.print("P ");
-        } else if (content == MazeContents.VISITED) {
-          System.out.print("V ");
-        } else if (content == MazeContents.DEAD_END) {
-          System.out.print("X ");
-        } else {
-          System.out.print(". ");
-        }
-      }
-      System.out.println();
-    }
+  //   System.out.println("Final Maze:");
+  //   for (int i = 0; i < maze.getHeight(); i++) {
+  //     for (int j = 0; j < maze.getWidth(); j++) {
+  //       MazeContents content = maze.getContents(i, j);
+  //       if (content == MazeContents.WALL) {
+  //         System.out.print("# ");
+  //       } else if (content == MazeContents.PATH) {
+  //         System.out.print("P ");
+  //       } else if (content == MazeContents.VISITED) {
+  //         System.out.print("V ");
+  //       } else if (content == MazeContents.DEAD_END) {
+  //         System.out.print("X ");
+  //       } else {
+  //         System.out.print(". ");
+  //       }
+  //     }
+  //     System.out.println();
+  //   }
     
-    System.out.println("====Result:====");
-    if (solved) {
-      System.out.println("Maze is solved!");
-    } else {
-      System.out.println("No maze solution was found.");
-    }
-  }
+  //   System.out.println("====Result:====");
+  //   if (solved) {
+  //     System.out.println("Maze is solved!");
+  //   } else {
+  //     System.out.println("No maze solution was found.");
+  //   }
+  // }
 }
