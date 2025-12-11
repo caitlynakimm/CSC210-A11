@@ -142,7 +142,7 @@ This will allow you to read a maze from your file and translate it to a machine-
 For the final phase of the assignment, you will implement Dijkstra's shortest path algorithm (as described in class) to find the most efficient route between the start and finish.  Do this in a separate executable program called `ShortestPath.java`. When you have found a path that takes the smallest number of steps, mark it in the maze and display the result.  You do not need to animate anything for this phase.
 
 Remember that Dijkstra's algorithm requires you to store some additional temporary information about each node (the current cost estimate, and the route pointer).  These should be local variables, not stored as fields of the class.  You have a choice of several different methods to keep track of this data:
-* You can store each piece of data in a 2D array the same size as the maze itself.  The data for a particular location in the maze will be stored at the same index values in the supplementary arrays.
+* You can store each piece of data in a 2D array the same size as the maze itself. The data for a particular location in the maze will be stored at the same index values in the supplementary arrays.
 * You can set up one or more hash tables using each `MazeLocation` as a key to the data associated with that point.
 
 Pick the method that seems most appropriate to you.  In your readme you should discuss the choice you made and give your reasons for it.
