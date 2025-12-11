@@ -50,7 +50,7 @@ public class Maze implements DisplayableMaze {
     return location.equals(finish);
   }
 
-  private void markCurrentLocation(MazeLocation location, MazeContents content) {
+  public void markCurrentLocation(MazeLocation location, MazeContents content) {
     if (location.getRow() >= 0 && location.getRow() < height && location.getCol() >=0 && location.getCol() < width) {
       mazeGrid[location.getRow()][location.getCol()] = content;
     }
