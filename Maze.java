@@ -1,11 +1,21 @@
 /* This class should implement the DisplayableMaze interface */
+/**
+ * Represents maze that can be solved using path-finding algorithms
+ * Implements DisplayableMaze interface for visualization
+ */
 public class Maze implements DisplayableMaze {
-  private MazeContents[][] mazeGrid;
-  private int width;
-  private int height;
-  private MazeLocation start;
-  private MazeLocation finish;
+  private MazeContents[][] mazeGrid; //2D array representing grid of maze cells
+  private int width; //width of maze in cells
+  private int height; //height of maze in cells
+  private MazeLocation start; //starting location in maze
+  private MazeLocation finish; //finish location in maze
   
+  /**
+   * Creates maze with given grid dimensions and start/finish locations
+   * @param grid 2D array of MazeContents representing maze layout
+   * @param start starting location in maze
+   * @param finish finish location (goal) in maze
+   */
   public Maze(MazeContents[][] grid, MazeLocation start, MazeLocation finish) {
     this.mazeGrid = grid;
     this.height = grid.length;
@@ -14,13 +24,28 @@ public class Maze implements DisplayableMaze {
     this.finish = finish;
   }
 
+  /**
+   * Returns height of maze in cells
+   * @return height of maze
+   */
   public int getHeight() {
     return height;
   }
+
+  /**
+   * Returns width of maze in cells
+   * @return width of maze
+   */
   public int getWidth() {
     return width;
   }
 
+  /**
+   * Returns contents of cell at given coordinates
+   * @param i row index (starts at 0)
+   * @param j column index (starts at 0)
+   * @return MazeContents at (i, j) or null if coordinates are out of bounds
+   */
   public MazeContents getContents(int i, int j) {
     if (i >= 0 && i < height && j >= 0 && j < width) {
       return mazeGrid[i][j];
@@ -29,6 +54,13 @@ public class Maze implements DisplayableMaze {
     }
   }
 
+  /**
+   * Checks if cell at given coordinates is explorable
+   * Cell is explorable if it's within bounds and not a wall or visited\
+   * @param i row index
+   * @param j column index
+   * @return true if cell is explorable, else false
+   */
   public Boolean checkExplorable(int i, int j) {
     if (i < 0 || i >= height || j < 0 || j >= width) { //check if location is within bounds
       return false;
@@ -38,18 +70,36 @@ public class Maze implements DisplayableMaze {
     return contents.isExplorable; //check if already visited location or reached a wall (field is from MazeContents class)
   }
 
+  /**
+   * Returns starting location of maze
+   * @return MazeLocation of start
+   */
   public MazeLocation getStart() {
     return start;
   }
 
+  /**
+   * Returns finish location of maze
+   * @return MazeLocation of finish
+   */
   public MazeLocation getFinish() {
     return finish;
   }
 
+  /**
+   * Checks if given location is finish location
+   * @param location location to check
+   * @return true if location is finish, else false
+   */
   private boolean isFinish(MazeLocation location) {
     return location.equals(finish);
   }
 
+  /**
+   * Marks given location in maze with given content
+   * @param location location to mark
+   * @param content MazeContents to place at that location
+   */
   public void markCurrentLocation(MazeLocation location, MazeContents content) {
     if (location.getRow() >= 0 && location.getRow() < height && location.getCol() >=0 && location.getCol() < width) {
       mazeGrid[location.getRow()][location.getCol()] = content;
@@ -83,6 +133,10 @@ public class Maze implements DisplayableMaze {
         this.mazeGrid[9][0] = MazeContents.WALL; this.mazeGrid[9][1] = MazeContents.WALL; this.mazeGrid[9][2] = MazeContents.WALL; this.mazeGrid[9][3] = MazeContents.WALL; this.mazeGrid[9][4] = MazeContents.WALL; this.mazeGrid[9][5] = MazeContents.WALL; this.mazeGrid[9][6] = MazeContents.WALL; this.mazeGrid[9][7] = MazeContents.WALL;
   }
 
+  /**
+   * Solves maze using recursive backtracking algorithm
+   * @return true if solution found, else false
+   */
   public boolean solve() {
     boolean solutionFound = solveFrom(start);
 
@@ -94,6 +148,11 @@ public class Maze implements DisplayableMaze {
     return solutionFound;
   }
 
+  /**
+   * Recursive helper method for solving maze from current location
+   * @param current current location in maze
+   * @return true if path to finish found from this location, else false
+   */
   private boolean solveFrom(MazeLocation current) {
     try { 
       Thread.sleep(10);	
@@ -127,60 +186,4 @@ public class Maze implements DisplayableMaze {
 
     return reachedPath;
   }
-
-  // public static void main(String[] args) {
-  //   Maze maze = new Maze();
-  //   maze.initDemoMaze();
-
-  //   System.out.println("====Testing Maze Solver:====");
-    
-  //   System.out.println("Initial Maze (S = Start, F = Finish):");
-  //   for (int i = 0; i < maze.getHeight(); i++) {
-  //     for (int j = 0; j < maze.getWidth(); j++) {
-  //       MazeLocation location = new MazeLocation(i,j);
-  //       if (location.equals(maze.getStart())) {
-  //         System.out.print("S ");
-  //       } else if (location.equals(maze.getFinish())) {
-  //         System.out.print("F ");
-  //       } else {
-  //         MazeContents content = maze.getContents(i, j);
-  //         if (content == MazeContents.WALL) {
-  //           System.out.print("# ");
-  //         } else {
-  //           System.out.print(". ");
-  //         }
-  //       }
-  //     }
-  //     System.out.println();
-  //   }
-
-  //   System.out.println("====Solving Maze:====");
-  //   boolean solved = maze.solve();
-
-  //   System.out.println("Final Maze:");
-  //   for (int i = 0; i < maze.getHeight(); i++) {
-  //     for (int j = 0; j < maze.getWidth(); j++) {
-  //       MazeContents content = maze.getContents(i, j);
-  //       if (content == MazeContents.WALL) {
-  //         System.out.print("# ");
-  //       } else if (content == MazeContents.PATH) {
-  //         System.out.print("P ");
-  //       } else if (content == MazeContents.VISITED) {
-  //         System.out.print("V ");
-  //       } else if (content == MazeContents.DEAD_END) {
-  //         System.out.print("X ");
-  //       } else {
-  //         System.out.print(". ");
-  //       }
-  //     }
-  //     System.out.println();
-  //   }
-    
-  //   System.out.println("====Result:====");
-  //   if (solved) {
-  //     System.out.println("Maze is solved!");
-  //   } else {
-  //     System.out.println("No maze solution was found.");
-  //   }
-  // }
 }

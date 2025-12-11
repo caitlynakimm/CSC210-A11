@@ -2,8 +2,18 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * Provides methods for reading maze files and converting them to Maze objects
+ */
 class SolveMaze {
 
+  /**
+   * Reads maze from text file and returns lines as an ArrayList
+   * Each line in file represents row in maze
+   * @param fname name of file to read
+   * @return ArrayList of strings, each representing a row of maze
+   * @throws FileNotFoundException if file can't be found
+   */
   public static ArrayList<String> readMaze(String fname){
     ArrayList<String> lines = new ArrayList<>();
     try {
@@ -20,6 +30,11 @@ class SolveMaze {
     return lines;
   }
   
+  /**
+   * Converts ArrayList of strings (represents maze) into Maze object
+   * @param lines ArrayList of strings representing maze
+   * @return Maze object created from input lines
+   */
   public static Maze convertToMaze(ArrayList<String> lines){
     int height = lines.size();
     int width = 0;
@@ -64,6 +79,11 @@ class SolveMaze {
     return new Maze(grid, start, finish);
   }
 
+  /**
+   * Main method for running recursive maze solver
+   * Expects maze's file name to be a command-lind argument
+   * @param args command-line arguments (first argument should be file name)
+   */
   public static void main(String[] args) {
     if(args.length <= 0){
       System.err.println("Please provide the name of the maze file.");
@@ -72,6 +92,7 @@ class SolveMaze {
     ArrayList<String> lines = readMaze(args[0]);
     Maze maze = convertToMaze(lines);
     MazeViewer viewer = new MazeViewer(maze);
+    maze.solve();
     
     // Maze maze = new Maze();
     // MazeViewer viewer = new MazeViewer(maze);

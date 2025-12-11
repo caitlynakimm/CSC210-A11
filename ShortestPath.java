@@ -1,20 +1,44 @@
 import java.util.*;
 
+/**
+ * Implements Dijkstra's shortest path algorithm to find shortest path from start to finish in a maze
+ * Marks shortest path and displays result
+ */
 public class ShortestPath {
+
+    /**
+     * Helper class representing a node in priority queue used in Dijkstra's algorithm
+     * Stores location in maze and current shortest distance to that location
+     */
     private static class QueueNode implements Comparable<QueueNode> {
         MazeLocation location; //cell location
         int distance; //current shortest distance to current cell
 
+        /**
+         * Creates a QueueNode with given location and distance
+         * @param location maze location
+         * @param distance current shortest distance to location
+         */
         QueueNode(MazeLocation location, int distance) {
             this.location = location;
             this.distance = distance;
         }
 
+        /**
+         * Compares this QueueNode with another one based on distance
+         * @param other other QueueNode to compare to
+         * @return negative integer, zero, or positive integer if this node's distance is less than, equal to, or greater than other's
+         */
         public int compareTo(QueueNode other) {
             return Integer.compare(this.distance, other.distance);
         }
     }
 
+    /**
+     * Solves maze using Dijkstra's shortest path algorithm
+     * Marks visited cells (light green), dead ends (red), and final shortest path (green)
+     * @param maze maze to solve
+     */
     public static void solve(Maze maze) {
         int height = maze.getHeight();
         int width = maze.getWidth();
@@ -108,6 +132,13 @@ public class ShortestPath {
         reconstructAndMarkPath(maze, predecessor, start, finish); //reconstruct final path and mark it (in green), if it exists
     }
 
+    /**
+     * Reconstructs shortest path from finish to start using predecessor array and marks path (green) in maze
+     * @param maze maze to mark path in
+     * @param predecessor 2D array of MazeLocations storing previous cell on shortest path
+     * @param start starting location
+     * @param finish finish location
+     */
     private static void reconstructAndMarkPath(Maze maze, MazeLocation[][] predecessor, MazeLocation start, MazeLocation finish) {
         //see if path exists to finish
         int finishRow = finish.getRow();
@@ -151,6 +182,11 @@ public class ShortestPath {
         System.out.println("Path marked!");
     }
 
+    /**
+     * Main method for running shortest path algorithm
+     * Accepts maze file as command-line argument or uses demo maze if no file provided
+     * @param args command-line arguments (first argument can be maze file name)
+     */
     public static void main(String[] args) {
         Maze maze;
 
