@@ -96,7 +96,7 @@ public class Maze implements DisplayableMaze {
 
   private boolean solveFrom(MazeLocation current) {
     try { 
-      Thread.sleep(50);	
+      Thread.sleep(10);	
     } catch (InterruptedException e) {
 
     }

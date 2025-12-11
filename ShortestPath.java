@@ -52,6 +52,17 @@ public class ShortestPath {
                 continue;
             }
 
+            //mark cell as VISITED (light green) with the animation
+            if (!current.location.equals(start) && !current.location.equals(finish)) {
+                maze.markCurrentLocation(current.location, MazeContents.VISITED);
+
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+
+                }
+            }
+
             visited[currentRow][currentCol] = true; //mark node as visited
 
             //check all 4 directions from current
@@ -62,6 +73,8 @@ public class ShortestPath {
                 MazeDirection.WEST
             };
 
+            boolean hasUnvisitedNeighbors = false; //flag for if current cell has any unvisited explorable neighbors
+
             for (MazeDirection dir : directions) {
                 MazeLocation neighbor = current.location.neighbor(dir);
 
@@ -71,6 +84,7 @@ public class ShortestPath {
                 //check if neighbor is within bounds and explorable
                 if (neighborRow >= 0 && neighborRow < height && 
                     neighborCol >= 0 && neighborCol < width && 
+                    
                     maze.checkExplorable(neighborRow, neighborCol)) {
 
                     int newDistance = distance[currentRow][currentCol] + 1;
@@ -79,12 +93,19 @@ public class ShortestPath {
                         distance[neighborRow][neighborCol] = newDistance;
                         predecessor[neighborRow][neighborCol] = current.location;
                         shortestDistances.add(new QueueNode(neighbor, newDistance)); //add neighbor to priority queue with new distance
+                        hasUnvisitedNeighbors = true;
                     }
                 }
             }
+
+            //mark dead ends (red)
+            if (!hasUnvisitedNeighbors && !current.location.equals(start) && !current.location.equals(finish)) {
+                maze.markCurrentLocation(current.location, MazeContents.DEAD_END);
+            }
+
         }
 
-        reconstructAndMarkPath(maze, predecessor, start, finish); //reconstruct path and mark it in the maze, if it exists
+        reconstructAndMarkPath(maze, predecessor, start, finish); //reconstruct final path and mark it (in green), if it exists
     }
 
     private static void reconstructAndMarkPath(Maze maze, MazeLocation[][] predecessor, MazeLocation start, MazeLocation finish) {
@@ -103,7 +124,24 @@ public class ShortestPath {
         MazeLocation current = finish;
 
         while (current != null && !current.equals(start)) {
-            maze.markCurrentLocation(current, MazeContents.PATH); //mark current cell as path
+            //check if current is marked as DEAD_END, if so, change it to PATH (green)
+            if (maze.getContents(current.getRow(), current.getCol()) == MazeContents.DEAD_END) {
+                maze.markCurrentLocation(current, MazeContents.PATH);
+            }
+            current = predecessor[current.getRow()][current.getCol()];
+        }
+
+        current = finish;
+
+        while (current != null && !current.equals(start)) {
+            maze.markCurrentLocation(current, MazeContents.PATH); //mark current cell as path (green)
+
+            //delay for animation effect
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+
+            }
 
             current = predecessor[current.getRow()][current.getCol()];
         }
@@ -124,7 +162,8 @@ public class ShortestPath {
             maze.initDemoMaze();
         }
 
-        solve(maze); //run dijkstra's algorithm
         MazeViewer viewer = new MazeViewer(maze);
+
+        solve(maze); //run dijkstra's algorithm
     }
 }
